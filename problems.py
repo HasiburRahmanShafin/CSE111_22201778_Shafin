@@ -440,4 +440,321 @@ class Profile(Tinder):
         matches_str = "\n".join(p.name for p in self.matches.keys()) if self.matches else "None"
         return (f"Name: {self.name}\nAge: {self.get_age()}\nFood Habit: {self.food}\n"
                 f"Music Taste: {self.music}\nWork Status: {self.work}\n"
-                f"Total Matches: {len(self.matches)}\nGood
+                f"Total Matches: {len(self.matches)}\nGood match for:\n{matches_str}\n")
+t = Tinder()
+p1 = Profile()
+t.add_profile(p1)
+print(p1)
+p2 = Profile("Efti", 22, "Carnivorous", ["Rock", "Mumble Rap"], "Unemployed", "Male", "Female")
+print(p2)
+t.matchmaker(p1, p2)
+p3 = Profile("Farsa", 19, "Vegetarian", ["Classical"], "Employed", "Female", "Male")
+t.add_profile(p2, p3)
+print(p3)
+t.matchmaker(p2, p3)
+t.matchmaker(p1, p3)
+print(p3)
+p2.name = "Labib"
+print(t)
+p4 = Profile("Efti", 21, "Omnivores", ["Heavy Metal","Rap","Classical"], "Unemployed", "Male", "Female")
+t.add_profile(p4)
+t.matchmaker(p3, p4)
+print(p4)
+print(p3)
+print(t.find_best_match(p2))
+print(t.find_best_match(p3))
+p5 = Profile("Shabor", 41, "Vegetarian", ["Heavy Metal"], "Employed", "Male", "Male")
+t.add_profile(p5)
+print(p5)
+t.matchmaker(p2, p5)
+p6 = Profile("Maimuna", 24, "Carnivorous", ["Heavy Metal"], "Employed", "Female", ["Male","Female"])
+t.add_profile(p6)
+print(p5)
+t.matchmaker(p1, p6)
+p7 = Profile("Maisun", 20, "Non-Vegetarian", ["Pop","Jazz"], "Employed", "Female", ["Male","Female"])
+t.add_profile(p7)
+print(p7)
+t.matchmaker(p6, p7)
+print(p7)
+print(p6)
+p8 = Profile("Shehab", 24, "Carnivorous", ["Heavy Metal"], "Employed", "Male", ["Female"])
+p9 = Profile("Yasir", 38, "Seka", ["Pop","Rap"], "Unemployed", "Male", "Female")
+p10 = Profile("Rashed", 12, "Vegetarian", ["Jazz"], "Employed", "Male", "Female")
+
+# LAB mid: Pokemon class
+class Pokemon:
+    def __init__(self, name, typ, sec_typ="", hp=0, atk=0):
+        self.name = name
+        self.type = typ + " " + sec_typ
+        self.hp = hp
+        self.atk = atk
+        self.abilities = []
+    def abilities(self, *args):
+        if len(self.abilities) + len(args) <= 4:
+            self.abilities.extend(args)
+        else:
+            print(f"{self.name} can not have more than 4 abilities, abilities not added!!")
+    def info(self):
+        print(f"{self.name} :\ntype: {self.type}\nhp: {self.hp}\nattack: {self.atk}")
+        for i, ab in enumerate(self.abilities, 1):
+            print(f"ability {i} : {ab}")
+pika = Pokemon('PIKACHU','electric')
+pika.abilities('thunder',"quick attack","tackle")
+pika.info()
+print("==============================================")
+char = Pokemon('CHARIZARD','fire','flying',100,98)
+char.abilities('flame thrower',"fire spin","dragon breath","iron tail","blaze")
+char.info()
+print("==============================================")
+bulba = Pokemon('BULBASAUR','grass','poison')
+bulba.abilities('overgrow',"chlorophyll","tackle","solar beam")
+bulba.info()
+print("==============================================")
+
+# Final: Fall22 setA - Netflix
+class Netflix:
+    totshows = []
+    def __init__(self, name, genres, episodes=10):
+        self.name = name
+        self.episodes = episodes
+        self.genres = ", ".join(genres)
+        Netflix.totshows.append(name)
+    def __str__(self):
+        return f"Show name: {self.name}\nEpisodes: {self.episodes}\nGenre: {self.genres}"
+    @classmethod
+    def printDetails(cls):
+        print(f"Total number of shows: {len(cls.totshows)}")
+        for s in cls.totshows:
+            print(s)
+s1 = Netflix("Wednesday",["Mystery","Supernatural"],15)
+print(s1)
+s2 = Netflix("Dark",["Mind-Bending","Sci-fi"])
+print(s2)
+Netflix.printDetails()
+s3 = Netflix("Suits",["Comedy","Courtroom"],20)
+print(s3)
+s4 = Netflix("Demon Slayer",["Anime"],22)
+print(s4)
+Netflix.printDetails()
+
+# Final: Fall22 setA - Mobile/Nokia
+class Mobile:
+    countryCodes = {"880": "Bangladesh", "966": "India", "455": "USA"}
+    def __init__(self, model, simCardStatus):
+        self.model = model
+        self.__simCardStatus = simCardStatus
+        print(f"Model {model} is manufactured.")
+    def setSimCardStatus(self, status):
+        self.__simCardStatus = status
+        print("SIM card status updated successfully.")
+    def getSimCardStatus(self):
+        return self.__simCardStatus
+    def __str__(self):
+        return f"Mobile Phone Detail:\nModel: {self.model}\nSIM Card Status: {self.__simCardStatus}"
+class Nokia(Mobile):
+    def __init__(self, model, sim_status, balance=0):
+        super().__init__(model, sim_status)
+        self.balance = balance
+        self.dialCallHistory = []
+    def __str__(self):
+        return f"{super().__str__()}\nBalance:{self.balance} TK"
+    def changeSIMCardStatus(self):
+        self.setSimCardStatus(True)
+    def rechargeSIMCard(self, amount):
+        self.balance = amount
+        print(f"Recharge successful! Current balance {amount} TK.")
+    def dialCall(self, number):
+        if not self.getSimCardStatus():
+            return "No SIM card available!"
+        if self.balance == 0:
+            return "Insufficient balance!"
+        code = number[:3]
+        if code not in Mobile.countryCodes:
+            return "Dialing is not allowed in this region."
+        self.dialCallHistory.append(number)
+        return f"Dialing the number {number} to {Mobile.countryCodes[code]} region."
+N3110 = Nokia("N3110", False)
+print(N3110)
+N1100 = Nokia("N1100", True, 100)
+print(N1100)
+print(N3110.dialCall("88017196xxxx"))
+N3110.changeSIMCardStatus()
+print(N3110.dialCall("88017196xxxx"))
+N3110.rechargeSIMCard(200)
+print(N3110.dialCall("88017196xxxx"))
+print(N1100.dialCall("45617196xxxx"))
+print(N1100.dialCall("45517196xxxx"))
+print(N1100.dialCall("96617196xxxx"))
+print(f"Dial call history for {N1100.model}: {N1100.dialCallHistory}")
+print(f"Dial call history for {N3110.model}: {N3110.dialCallHistory}")
+
+# Final: Fall22 setA - A/B tracing
+class A:
+    temp = 7
+    def __init__(self):
+        self.y = A.temp - 3
+        self.sum = self.temp + 2
+        A.temp += 3
+    def methodA(self, m, n, x=0):
+        self.y = self.y + m + (A.temp)
+        x = x + 2 + n
+        self.sum = self.sum + x + self.temp
+        print(x, self.y, self.sum)
+class B(A):
+    temp = 1
+    def __init__(self, obj=None):
+        super().__init__()
+        self.temp = self.temp + B.temp
+        self.sum = 3 + B.temp + A.temp
+        if obj is not None:
+            obj.methodB(3, 6)
+        else:
+            self.methodB(1, 4)
+    def methodB(self, m, n):
+        y = self.temp + self.y + n
+        B.temp = m + self.y + n
+        self.methodA(n, m)
+        self.sum = self.y + y + A.temp
+        print(self.temp, y, self.sum)
+b1 = B()
+b2 = B(b1)
+
+# Final: Fall22 setB - same as setA (Netflix, Mobile, A/B) but with different values; we already have setA, setB is identical except class A temp=5? The notebook shows both, but we can skip duplicate or include both? For brevity, we include only one variant. The original had setB with A.temp=5 and different methodA parameters. We'll add the variant.
+class A_setB:
+    temp = 5
+    def __init__(self):
+        self.y = A_setB.temp - 2
+        self.sum = self.temp + 1
+        A_setB.temp += 3
+    def methodA(self, m, n, x=0):
+        self.y = self.y + m + (A_setB.temp)
+        x = x + 4 + n
+        self.sum = self.sum + x + self.temp
+        print(x, self.y, self.sum)
+class B_setB(A_setB):
+    temp = 1
+    def __init__(self, obj=None):
+        super().__init__()
+        self.temp = self.temp + B_setB.temp
+        self.sum = 5 + B_setB.temp + A_setB.temp
+        if obj is not None:
+            obj.methodB(6, 3)
+        else:
+            self.methodB(4, 1)
+    def methodB(self, m, n):
+        y = self.temp + self.y + n
+        B_setB.temp = m + self.y + n
+        self.methodA(n, m)
+        self.sum = self.y + y + A_setB.temp
+        print(self.temp, y, self.sum)
+b1_setB = B_setB()
+b2_setB = B_setB(b1_setB)
+
+# Final: Summer22 - Monster class
+class Monster:
+    monsterCount = 0
+    def __init__(self, name, power):
+        self.name = name
+        self.power = power
+        self.alive = True
+        Monster.monsterCount += 1
+    def get_details(self):
+        return f"Name:{self.name}\nPower:{self.power}\nAlive:{self.alive}"
+    def attack(self, *targets):
+        if not targets:
+            print("No monsters to attack")
+        elif not self.alive:
+            print(f"{self.name} is not alive to attack.")
+        else:
+            for t in targets:
+                if not t.alive:
+                    print(f"Cannot attack {t.name}. It's not alive.")
+                elif self.power > t.power:
+                    t.alive = False
+                    print(f"Attack successful.{self.name} defeated {t.name}.")
+                else:
+                    self.alive = False
+                    print(f"Attack unsuccessful. {self.name} was defeated by {t.name}.")
+monster1 = Monster('Godzilla', 40)
+monster2 = Monster('Hydra', 30)
+monster3 = Monster('KingKong', 50)
+print(f"Number of monsters alive:{Monster.monsterCount}")
+print(monster1.get_details())
+print(monster2.get_details())
+print(monster3.get_details())
+monster1.attack()
+monster1.attack(monster2)
+monster1.attack(monster2, monster3)
+print(f"Number of monsters alive:{Monster.monsterCount}")
+print(monster2.get_details())
+monster2.attack(monster1)
+
+# Final: Summer22 - User and BracbookUser
+class User:
+    activities = ["Post", "Like", "Comment"]
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+    def UserActivity(self, activityType):
+        return activityType in User.activities
+    def userDetail(self):
+        return f"User Detail:\nName:{self.name}\nEmail: {self.email}"
+class BracbookUser(User):
+    def __init__(self, name, email, phone="Not set"):
+        super().__init__(name, email)
+        self.phone = phone
+        self.log = []
+    def UserActivity(self, activity):
+        if super().UserActivity(activity):
+            self.log.append(activity)
+            print(f"{self.name} has {activity}(d/ed) successfully.")
+        else:
+            print(f"No activities found like {activity}")
+    def userDetail(self):
+        base = super().userDetail()
+        log_str = ", ".join(self.log) if self.log else "No recent activity."
+        return f"{base}\nPhone: {self.phone}\nActivity log: {log_str}"
+user1 = BracbookUser("Rakait", "xyz@gmail.com")
+print(user1.userDetail())
+user2 = BracbookUser("Sazzad", "abc@gmail.com", "01727xxxxxx")
+print(user2.userDetail())
+user1.UserActivity("Like")
+user1.UserActivity("Comment")
+print(user1.userDetail())
+user2.UserActivity("Share")
+user2.UserActivity("Comment")
+print(user2.userDetail())
+
+# Final: Summer22 - A/B tracing (last one in notebook)
+class A_Summer:
+    temp = 5
+    def __init__(self):
+        self.y = A_Summer.temp - 2
+        self.sum = A_Summer.temp + 1
+        A_Summer.temp += 3
+    def methodA(self, m, n):
+        x = 0
+        self.y = self.y + m + (A_Summer.temp)
+        x = x + 2 + n
+        print(x, self.y, self.sum)
+        self.methodB(-2, 6)
+        self.sum = self.sum + x + A_Summer.temp
+        self.methodB(-4, self.sum, 3)
+    def methodB(self, m, n, y=0):
+        pass  # This is overridden in B
+class B_Summer(A_Summer):
+    x = 1
+    def __init__(self, obj=None):
+        super().__init__()
+        if obj is not None:
+            obj.sum = 11
+            self.y = A_Summer.temp + 4
+            self.sum = 3 + A_Summer.temp + B_Summer.x
+    def methodB(self, m, n, y=0):
+        y = y + self.y + n
+        B_Summer.x = m + self.y + n
+        self.sum = B_Summer.x + y + A_Summer.temp
+        print(B_Summer.x, y, self.sum)
+b1_summer = B_Summer()
+b2_summer = B_Summer(b1_summer)
+b1_summer.methodA(-3, -7)
